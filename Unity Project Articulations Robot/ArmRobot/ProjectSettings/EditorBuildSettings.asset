@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/ArticulationRobot.unity
+    guid: 94fa6bc4b68eb4fd0b73c109f3ff4e02
+  - enabled: 0
+    path: Assets/Scenes/2arm Robohand.unity
+    guid: 823d33b4060d7fa4e81dbf3e6ecd78fb
+  - enabled: 1
+    path: Assets/Scenes/Test Hand.unity
+    guid: 03ec12259282ff84182ed06f3516ee86
+  m_configObjects: {}

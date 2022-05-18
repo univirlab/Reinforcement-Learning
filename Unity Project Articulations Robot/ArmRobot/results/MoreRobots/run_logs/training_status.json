@@ -1,0 +1,29 @@
+{
+    "TouchCube": {
+        "checkpoints": [
+            {
+                "steps": 58870,
+                "file_path": "results\\MoreRobots\\TouchCube\\TouchCube-58870.onnx",
+                "reward": -5.37077056478571,
+                "creation_time": 1647464396.1706893,
+                "auxillary_file_paths": [
+                    "results\\MoreRobots\\TouchCube\\TouchCube-58870.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 58870,
+            "file_path": "results\\MoreRobots\\TouchCube.onnx",
+            "reward": -5.37077056478571,
+            "creation_time": 1647464396.1706893,
+            "auxillary_file_paths": [
+                "results\\MoreRobots\\TouchCube\\TouchCube-58870.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.0+cu110"
+    }
+}

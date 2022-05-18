@@ -1,0 +1,2 @@
+model_checkpoint_path: "test_hand3_50epochs.ckpt"
+all_model_checkpoint_paths: "test_hand3_50epochs.ckpt"

@@ -1,0 +1,29 @@
+{
+    "TouchCube": {
+        "checkpoints": [
+            {
+                "steps": 10826,
+                "file_path": "results\\Test2\\TouchCube\\TouchCube-10826.onnx",
+                "reward": -3.544983744621277,
+                "creation_time": 1651050576.2894387,
+                "auxillary_file_paths": [
+                    "results\\Test2\\TouchCube\\TouchCube-10826.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 10826,
+            "file_path": "results\\Test2\\TouchCube.onnx",
+            "reward": -3.544983744621277,
+            "creation_time": 1651050576.2894387,
+            "auxillary_file_paths": [
+                "results\\Test2\\TouchCube\\TouchCube-10826.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.7.0+cu110"
+    }
+}

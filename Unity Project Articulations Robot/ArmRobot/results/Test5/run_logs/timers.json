@@ -1,0 +1,42 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1651051641",
+        "python_version": "3.8.10 (tags/v3.8.10:3d8993a, May  3 2021, 11:48:03) [MSC v.1928 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\vika9\\Desktop\\articulations-robot-demo-mlagents\\ArmRobot\\venv\\Scripts\\mlagents-learn --run-id=Test5",
+        "mlagents_version": "0.28.0",
+        "mlagents_envs_version": "0.28.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "1.7.0+cu110",
+        "numpy_version": "1.22.3",
+        "end_time_seconds": "1651051711"
+    },
+    "total": 69.9975186,
+    "count": 1,
+    "self": 0.009663299999999708,
+    "children": {
+        "run_training.setup": {
+            "total": 0.07065069999999996,
+            "count": 1,
+            "self": 0.07065069999999996
+        },
+        "TrainerController.start_learning": {
+            "total": 69.9172046,
+            "count": 1,
+            "self": 0.00019190000001856333,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 69.91694989999999,
+                    "count": 1,
+                    "self": 69.91694989999999
+                },
+                "TrainerController._save_models": {
+                    "total": 6.279999999492247e-05,
+                    "count": 1,
+                    "self": 6.279999999492247e-05
+                }
+            }
+        }
+    }
+}
