@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class TablePositionRandomizer : MonoBehaviour
@@ -8,11 +9,10 @@ public class TablePositionRandomizer : MonoBehaviour
     public float robotMinReach = 0.2f;
     public float robotMaxReach = 0.5f;
 
-    Bounds tableBounds;
-    float targetY;
+    protected Bounds tableBounds;
+    protected float targetY;
 
-
-    void Start()
+    protected void Start()
     {
         tableBounds = table.GetComponent<Collider>().bounds;
         targetY = transform.position.y;
@@ -20,8 +20,7 @@ public class TablePositionRandomizer : MonoBehaviour
 
 
     // CONTROL
-
-    public void Move()
+    public virtual void Move()
     {
         // random position (on table, within reach)     
         Vector2 tableTopPoint = RandomReachablePointOnTable();
@@ -46,7 +45,7 @@ public class TablePositionRandomizer : MonoBehaviour
 
     // HELPERS
 
-    Vector2 RandomReachablePointOnTable()
+    protected Vector2 RandomReachablePointOnTable()
     {
         while (true)
         {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TestTouchDetector : MonoBehaviour
+public class TwoArmTouchDetector : MonoBehaviour
 {
     public string touchTargetTag = "Pincher";
     public bool hasTouchedTarget = false;

@@ -3,7 +3,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using UnityEngine.UI;
 
-public class TestRobotAgent : Agent
+public class TwoArmsRobotAgent : Agent
 {
     [SerializeField] private Text text;
     
@@ -13,8 +13,8 @@ public class TestRobotAgent : Agent
 
     public RobotPart[] roboParts;
 
-    TablePositionRandomizer tablePositionRandomizer;
-    TestTouchDetector touchDetector;
+    TwoArmsTablePositionRandomizer tablePositionRandomizer;
+    TwoArmTouchDetector touchDetector;
 
     public Vector3 cubePosition;
     public Vector3 endPosition;
@@ -24,8 +24,8 @@ public class TestRobotAgent : Agent
 
     private void Start()
     {
-        touchDetector = cube.GetComponent<TestTouchDetector>();
-        tablePositionRandomizer = cube.GetComponent<TablePositionRandomizer>();
+        touchDetector = cube.GetComponent<TwoArmTouchDetector>();
+        tablePositionRandomizer = cube.GetComponent<TwoArmsTablePositionRandomizer>();
     }
 
     public override void OnEpisodeBegin()
