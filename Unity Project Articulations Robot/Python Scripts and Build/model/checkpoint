@@ -1,2 +1,2 @@
-model_checkpoint_path: "test_2arm_hand_75epochs.ckpt"
-all_model_checkpoint_paths: "test_2arm_hand_75epochs.ckpt"
+model_checkpoint_path: "test_2arm_old_state_reward_-1_each_step.ckpt"
+all_model_checkpoint_paths: "test_2arm_old_state_reward_-1_each_step.ckpt"

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TwoArmsRobotAgent : Agent
 {
+    // можно накапливать action в переменную - на какой угол в сумме мы уже повернулись по каждой оси - получаем по два числа для каждого сочленения вместо трех (rotation)
+    
     [SerializeField] private Text text;
     
     public GameObject endEffector;
@@ -50,7 +52,7 @@ public class TwoArmsRobotAgent : Agent
 
         sensor.AddObservation(endPosition);
 
-        // rotation of each robohand part
+        // rotation of each robohand part - quaternions (4 floats for each)
         foreach (var robotPart in roboParts)
             sensor.AddObservation(robotPart.Rotation);
     }
@@ -70,23 +72,13 @@ public class TwoArmsRobotAgent : Agent
 
         if (touchDetector.hasTouchedTarget)
         {
-            SetReward(50f);
-            _curReward = 50;
+            SetReward(10f);
+            _curReward = 10;
             EndEpisode();
         }
 
-        // Every step : - distance between the hand and the cube, to encourage approach to the cube.
-        float distanceToCube = Vector3.Distance(endEffector.transform.position, cube.transform.position);
-        SetReward(-distanceToCube);
-        _curReward = -distanceToCube;
-
-        // When distance < 2, set reward to 50.
-        if (distanceToCube < .2)
-        {
-            SetReward(1 / distanceToCube);
-            _curReward = 1 / distanceToCube;
-        }
-
+        SetReward(-1);
+        _curReward = -1;
         UpdateInfo();
     }
 

@@ -5,10 +5,17 @@ public class RobotPart : MonoBehaviour
 {
     [SerializeField] private Vector3[] rotationAxes;
     [SerializeField] private Vector3 startLocalPosition;
-
-    public float Speed = 2;
     
-    public Vector3 Rotation => transform.rotation.eulerAngles.normalized;
+    public float Speed = 2;
+
+    public Vector3 Rotation
+    {
+        get
+        {
+            var q = transform.rotation.eulerAngles.normalized;
+            return q;
+        }
+    }
 
     public void SetStartPositionRotation()
     {
@@ -22,7 +29,7 @@ public class RobotPart : MonoBehaviour
         {
             if (rotateValues.Length < index + 1)
                 break;
-            
+
             transform.RotateAround(transform.position, rotationAxes[index], rotateValues[index] * Speed);
         }
     }
