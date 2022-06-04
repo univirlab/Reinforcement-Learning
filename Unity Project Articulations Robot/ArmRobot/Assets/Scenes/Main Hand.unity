@@ -410,9 +410,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationAxes:
   - {x: 1, y: 0, z: 0}
-  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 0, z: 1}
   startLocalPosition: {x: 0, y: 0.4, z: 0}
-  handEnd: {fileID: 1234045326}
   Speed: 1.3
 --- !u!1 &954335180
 GameObject:
@@ -554,9 +553,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationAxes:
   - {x: 1, y: 0, z: 0}
-  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: 0, z: 1}
   startLocalPosition: {x: 0, y: 0, z: 0}
-  handEnd: {fileID: 1561235620}
   Speed: 1.3
 --- !u!1 &961293634
 GameObject:
