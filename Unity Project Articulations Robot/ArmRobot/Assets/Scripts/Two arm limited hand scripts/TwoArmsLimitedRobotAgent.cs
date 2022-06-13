@@ -13,7 +13,7 @@ public class TwoArmsLimitedRobotAgent : Agent
     public GameObject cube;
     public GameObject robot;
 
-    public RobotPart[] roboParts;
+    public LimitedRobotPart[] roboParts;
 
     TwoArmsTablePositionRandomizer tablePositionRandomizer;
     TwoArmTouchDetector touchDetector;
@@ -28,6 +28,10 @@ public class TwoArmsLimitedRobotAgent : Agent
     {
         touchDetector = cube.GetComponent<TwoArmTouchDetector>();
         tablePositionRandomizer = cube.GetComponent<TwoArmsTablePositionRandomizer>();
+        
+        Academy.Instance.AutomaticSteppingEnabled = false;
+        RequestDecision();
+        Academy.Instance.EnvironmentStep();
     }
 
     public override void OnEpisodeBegin()
@@ -57,28 +61,47 @@ public class TwoArmsLimitedRobotAgent : Agent
             sensor.AddObservation(robotPart.Rotation);
     }
 
-
     public override void OnActionReceived(float[] vectorAction)
     {
-        //float[] testVector = {Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
+        //float[] testVector = {Random.Range(-90f, 90f), Random.Range(-90f, 90f), Random.Range(-90f, 90f)};
         _actions = vectorAction;
-        int indexOfAction = 0;
-        for (var index = 0; index < roboParts.Length; index++)
-        {
-            var roboPart = roboParts[index];
-            roboPart.RotateAround(new[] {vectorAction[indexOfAction], vectorAction[indexOfAction + 1]});
-            indexOfAction += 2;
-        }
 
+        roboParts[0].CanRotate = true;
+        roboParts[1].CanRotate = true;
+       
         if (touchDetector.hasTouchedTarget)
         {
             SetReward(10f);
             _curReward = 10;
             EndEpisode();
         }
+    }
 
-        SetReward(-1);
+    private void FixedUpdate()
+    {
+        if (roboParts[0].CanRotate && !roboParts[0].IsRotated)
+        {
+            var angle = new Vector3(_actions[0], 0, _actions[1]);
+            roboParts[0].RotateTo(angle);
+        }
+        else if (!roboParts[0].CanRotate && !roboParts[0].IsRotated)
+        {
+            if (roboParts[1].CanRotate && !roboParts[1].IsRotated)
+            {
+                var angle = new Vector3(_actions[2], 0, 0);
+                roboParts[1].RotateTo(angle);
+            }
+        }
+
+        if (!roboParts[0].CanRotate && !roboParts[1].CanRotate)
+        {
+            RequestDecision();
+            Academy.Instance.EnvironmentStep();
+        }
+
+        AddReward(-1);
         _curReward = -1;
+        
         UpdateInfo();
     }
 

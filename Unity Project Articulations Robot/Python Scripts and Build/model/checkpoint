@@ -1,2 +1,2 @@
-model_checkpoint_path: "reward_-1_each_step.ckpt"
-all_model_checkpoint_paths: "reward_-1_each_step.ckpt"
+model_checkpoint_path: "update_control_her.ckpt"
+all_model_checkpoint_paths: "update_control_her.ckpt"
