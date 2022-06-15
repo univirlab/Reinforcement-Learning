@@ -203,7 +203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3408982656625918140}
   m_Layer: 0
-  m_Name: Train Model 2 arm
+  m_Name: Train Model Rotator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,6 +338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aadac9b07c97b442ba4339c192aefe69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsTestArm: 0
+  RotateValue: {x: 0, y: 0}
   rotationState: 0
   speed: 10
 --- !u!1 &3408982658043412169

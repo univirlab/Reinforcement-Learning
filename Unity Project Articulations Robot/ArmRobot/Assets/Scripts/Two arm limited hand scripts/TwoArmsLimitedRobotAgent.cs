@@ -15,19 +15,19 @@ public class TwoArmsLimitedRobotAgent : Agent
 
     public LimitedRobotPart[] roboParts;
 
-    TwoArmsTablePositionRandomizer tablePositionRandomizer;
+    TablePositionRandomizer tablePositionRandomizer;
     TwoArmTouchDetector touchDetector;
 
     public Vector3 cubePosition;
     public Vector3 endPosition;
 
     private float _curReward;
-    private float[] _actions;
-
+    protected float[] _actions;
+    
     private void Start()
     {
         touchDetector = cube.GetComponent<TwoArmTouchDetector>();
-        tablePositionRandomizer = cube.GetComponent<TwoArmsTablePositionRandomizer>();
+        tablePositionRandomizer = cube.GetComponent<TablePositionRandomizer>();
         
         Academy.Instance.AutomaticSteppingEnabled = false;
         RequestDecision();
@@ -63,8 +63,8 @@ public class TwoArmsLimitedRobotAgent : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        //float[] testVector = {Random.Range(-1, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
-        _actions = vectorAction;
+        float[] testVector = {Random.Range(-89, 89f), Random.Range(-89f, 89f)};
+        _actions = testVector;
 
         roboParts[0].CanRotate = true;
         roboParts[1].CanRotate = true;
@@ -79,11 +79,11 @@ public class TwoArmsLimitedRobotAgent : Agent
         _curReward = -1;
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (roboParts[0].CanRotate && !roboParts[0].IsRotated)
         {
-            var angle = new Vector3(_actions[0], 0, _actions[1]);
+            var angle = new Vector3(_actions[0], _actions[1], 0);
             roboParts[0].RotateTo(angle);
         }
         else if (!roboParts[0].CanRotate && !roboParts[0].IsRotated)
@@ -106,7 +106,7 @@ public class TwoArmsLimitedRobotAgent : Agent
         UpdateInfo();
     }
 
-    private void UpdateInfo()
+    protected void UpdateInfo()
     {
         var obs = string.Join("  ", GetObservations());
         var act = string.Join("  ", _actions);
