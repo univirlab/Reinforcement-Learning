@@ -6,13 +6,23 @@ public class TwoArmsTablePositionRandomizer : TablePositionRandomizer
     [ContextMenu("Move")]
     public override void Move()
     {
-        // random position (on table, within reach)     
         Vector2 tableTopPoint = RandomReachablePointOnTable();
         Vector3 tableCenter = tableBounds.center;
         float x = tableCenter.x + tableTopPoint.x;
         float z = tableCenter.z + tableTopPoint.y;
+        
         transform.position = new Vector3(x, targetY, z);
 
+        while (transform.position.z < 0)
+        {
+            print("z change " + transform.position.z);
+            tableTopPoint = RandomReachablePointOnTable();
+            tableCenter = tableBounds.center;
+            x = tableCenter.x + tableTopPoint.x;
+            z = tableCenter.z + tableTopPoint.y;
+            transform.position = new Vector3(x, targetY, z);
+        }
+        
         // random rotation
         Vector3 randomRotation = new Vector3(
             transform.rotation.eulerAngles.x,

@@ -63,7 +63,7 @@ public class TwoArmsLimitedRobotAgent : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        //float[] testVector = {Random.Range(-90f, 90f), Random.Range(-90f, 90f), Random.Range(-90f, 90f)};
+        //float[] testVector = {Random.Range(-1, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
         _actions = vectorAction;
 
         roboParts[0].CanRotate = true;
@@ -75,6 +75,8 @@ public class TwoArmsLimitedRobotAgent : Agent
             _curReward = 10;
             EndEpisode();
         }
+        SetReward(-1);
+        _curReward = -1;
     }
 
     private void FixedUpdate()
@@ -99,8 +101,7 @@ public class TwoArmsLimitedRobotAgent : Agent
             Academy.Instance.EnvironmentStep();
         }
 
-        AddReward(-1);
-        _curReward = -1;
+        
         
         UpdateInfo();
     }
