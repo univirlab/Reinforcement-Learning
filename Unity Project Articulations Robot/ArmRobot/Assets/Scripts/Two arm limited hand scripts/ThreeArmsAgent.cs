@@ -5,7 +5,7 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
     
     public override void OnActionReceived(float[] vectorAction)
     {
-        //float[] testVector = {Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f)};
+        //float[] testVector = {Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
         _actions = vectorAction;
         for (var index = 0; index < roboParts.Length; index++)
         {
