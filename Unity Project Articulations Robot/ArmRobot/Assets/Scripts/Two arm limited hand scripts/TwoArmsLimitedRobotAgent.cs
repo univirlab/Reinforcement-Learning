@@ -16,12 +16,12 @@ public class TwoArmsLimitedRobotAgent : Agent
     public LimitedRobotPart[] roboParts;
 
     TablePositionRandomizer tablePositionRandomizer;
-    TwoArmTouchDetector touchDetector;
+    protected TwoArmTouchDetector touchDetector;
 
     public Vector3 cubePosition;
     public Vector3 endPosition;
 
-    private float _curReward;
+    protected float _curReward;
     protected float[] _actions;
     
     private void Start()

@@ -3,16 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LimitedRobotPart : MonoBehaviour
+public class LimitedRobotPart : RobotPart
 {
-    [SerializeField] public Vector3[] rotationAxes;
-    [SerializeField] private Vector3 startLocalPosition;
     [SerializeField] private float minAngle = -120;
     [SerializeField] private float maxAngle = 120;
 
     public bool IsOutOfRange;
     public float[] Angles;
-    public float Speed = 1;
     public bool IsRotated;
     public bool CanRotate;
 
@@ -36,7 +33,7 @@ public class LimitedRobotPart : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
 
-    public void RotateAround(float[] rotateValues)
+    public override void RotateAround(float[] rotateValues)
     {
         for (var index = 0; index < rotationAxes.Length; index++)
         {

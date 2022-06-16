@@ -1,10 +1,9 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RobotPart : MonoBehaviour
 {
-    [SerializeField] private Vector3[] rotationAxes;
-    [SerializeField] private Vector3 startLocalPosition;
+    [SerializeField] protected Vector3[] rotationAxes;
+    [SerializeField] protected Vector3 startLocalPosition;
     
     public float Speed = 2;
 
@@ -23,7 +22,7 @@ public class RobotPart : MonoBehaviour
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
 
-    public void RotateAround(float[] rotateValues)
+    public virtual void RotateAround(float[] rotateValues)
     {
         for (var index = 0; index < rotationAxes.Length; index++)
         {
@@ -32,5 +31,10 @@ public class RobotPart : MonoBehaviour
 
             transform.RotateAround(transform.position, rotationAxes[index], rotateValues[index] * Speed);
         }
+    }
+    
+    public virtual void RotateAround(float rotateValue)
+    {
+        transform.RotateAround(transform.position, rotationAxes[0], rotateValue * Speed);
     }
 }

@@ -1,2 +1,2 @@
-model_checkpoint_path: "old_hand_step10_without_her.ckpt"
-all_model_checkpoint_paths: "old_hand_step10_without_her.ckpt"
+model_checkpoint_path: "old_hand_hands3_step3_her.ckpt"
+all_model_checkpoint_paths: "old_hand_hands3_step3_her.ckpt"

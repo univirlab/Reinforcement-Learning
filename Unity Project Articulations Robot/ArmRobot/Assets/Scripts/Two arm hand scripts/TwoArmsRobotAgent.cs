@@ -15,19 +15,20 @@ public class TwoArmsRobotAgent : Agent
 
     public RobotPart[] roboParts;
 
-    TwoArmsTablePositionRandomizer tablePositionRandomizer;
-    TwoArmTouchDetector touchDetector;
+    [SerializeField] private TablePositionRandomizer tablePositionRandomizer;
+    protected TwoArmTouchDetector touchDetector;
 
     public Vector3 cubePosition;
     public Vector3 endPosition;
 
-    private float _curReward;
-    private float[] _actions;
+    protected float _curReward;
+    protected float[] _actions;
 
     private void Start()
     {
         touchDetector = cube.GetComponent<TwoArmTouchDetector>();
-        tablePositionRandomizer = cube.GetComponent<TwoArmsTablePositionRandomizer>();
+        if (!tablePositionRandomizer)
+            tablePositionRandomizer = cube.GetComponent<TwoArmsTablePositionRandomizer>();
     }
 
     public override void OnEpisodeBegin()
@@ -57,7 +58,6 @@ public class TwoArmsRobotAgent : Agent
             sensor.AddObservation(robotPart.Rotation);
     }
 
-
     public override void OnActionReceived(float[] vectorAction)
     {
         //float[] testVector = {Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
@@ -82,7 +82,7 @@ public class TwoArmsRobotAgent : Agent
         UpdateInfo();
     }
 
-    private void UpdateInfo()
+    protected void UpdateInfo()
     {
         var obs = string.Join("  ", GetObservations());
         var act = string.Join("  ", _actions);
