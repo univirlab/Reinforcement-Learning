@@ -9,7 +9,7 @@ public class LimitedRobotPart : RobotPart
     [SerializeField] private float maxAngle = 120;
 
     public bool IsOutOfRange;
-    public float[] Angles;
+    
     public bool IsRotated;
     public bool CanRotate;
 
@@ -125,45 +125,5 @@ public class LimitedRobotPart : RobotPart
         }
 
         return res;
-    }
-
-    private Vector3 WrapAngle(Vector3 angle)
-    {
-        var x = angle.x;
-        var y = angle.y;
-        var z = angle.z;
-
-        if (Vector3.Dot(transform.up, Vector3.up) >= 0f)
-        {
-            if (angle.x >= 0f && angle.x <= 90f)
-                x = angle.x;
-            if (angle.x >= 270f && angle.x <= 360f)
-                x = angle.x - 360f;
-        }
-
-        if (Vector3.Dot(transform.up, Vector3.up) < 0f)
-        {
-            if (angle.x >= 0f && angle.x <= 90f)
-                x = 180 - angle.x;
-            if (angle.x >= 270f && angle.x <= 360f)
-                x = 180 - angle.x;
-        }
-
-        if (angle.y > 180)
-            y = angle.y - 360f;
-
-        if (angle.z > 180)
-            z = angle.z - 360f;
-
-        return new Vector3(x, y, z);
-    }
-    
-    private float WrapAngle(float angle)
-    {
-        angle%=360;
-        if(angle >180)
-            return angle - 360;
- 
-        return angle;
     }
 }

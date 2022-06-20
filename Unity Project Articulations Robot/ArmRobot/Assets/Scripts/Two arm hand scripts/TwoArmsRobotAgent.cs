@@ -7,7 +7,7 @@ public class TwoArmsRobotAgent : Agent
 {
     // можно накапливать action в переменную - на какой угол в сумме мы уже повернулись по каждой оси - получаем по два числа для каждого сочленения вместо трех (rotation)
     
-    [SerializeField] private Text text;
+    [SerializeField] protected Text text;
     
     public GameObject endEffector;
     public GameObject cube;
@@ -82,7 +82,7 @@ public class TwoArmsRobotAgent : Agent
         UpdateInfo();
     }
 
-    protected void UpdateInfo()
+    protected virtual void UpdateInfo()
     {
         var obs = string.Join("  ", GetObservations());
         var act = string.Join("  ", _actions);
