@@ -20,7 +20,9 @@ def sample_hyper_parameters(
 ) -> Dict:
 
 
-    actor_learning_rate = trial.suggest_loguniform("actor_learning_rate", 1e-5, 1e-2)
+    nn_layers = trial.suggest_categorical("nn_layers", [2, 3, 4])
+    #actor_learning_rate = trial.suggest_loguniform("actor_learning_rate", 1e-5, 1e-2)
+    nn_hidden_layers = trial.suggest_categorical("nn_hidden_layers", [64, 256])
     #critic_learning_rate = trial.suggest_loguniform("critic_learning_rate", 1e-5, 1e-2)
     #tau = trial.suggest_loguniform("tau", 1e-3, 0.2)
     #variance = trial.suggest_categorical("variance", [3, 4, 5, 6])
@@ -30,7 +32,8 @@ def sample_hyper_parameters(
     #memory_size = trial.suggest_categorical("memory_size", [int(1e4), int(5e4), int(1e5)])
 
     return {
-        'actor_learning_rate': actor_learning_rate,
+        'nn_layers': nn_layers,
+        'nn_hidden_layers': nn_hidden_layers,
         #'critic_learning_rate': critic_learning_rate,
         #'tau': tau,
     }
@@ -74,12 +77,12 @@ def objective(
                                        force_linear_model=force_linear_model)
         mlflow.log_params(trial.params)
         
-        print("PARAMS: actor_learning_rate = ", args['actor_learning_rate'])
+        print("PARAMS: nn_layers = ", args['nn_layers'], " nn_hidden_layers = ", args['nn_hidden_layers'])
 
         # create agent object
         agent = DDPGAgent(state_size= state_size - 3, action_size=action_size, goal_size=3, action_high=1,
-                          action_low=-1, actor_learning_rate = args['actor_learning_rate'], critic_learning_rate= 1e-3,
-                          tau = 0.1)
+                          action_low=-1, actor_learning_rate = 1e-3, critic_learning_rate= 1e-3,
+                          tau = 0.1, nn_layers = args['nn_layers'], nn_hidden_layers = args['nn_hidden_layers'])
         
 
         # train loop
@@ -215,10 +218,12 @@ class Episode_experience():
 
 class DDPGAgent:
     def __init__(self, state_size, action_size, goal_size, action_low=-1, action_high=1, gamma=0.98,
-                 actor_learning_rate=0.01, critic_learning_rate=0.01, tau=1e-3):
+                 actor_learning_rate=0.01, critic_learning_rate=0.01, tau=1e-3, nn_layers = 3, nn_hidden_layers = 64):
         self.state_size = state_size
         self.action_size = action_size
         self.goal_size = goal_size
+        self.nn_layers = nn_layers
+        self.nn_hidden_layers = nn_hidden_layers
         self.action_low = action_low
         self.action_high = action_high
         self.gamma = gamma   # discount rate
@@ -230,6 +235,7 @@ class DDPGAgent:
         self.batch_size = 32
         self.gradient_norm_clip = None
         self._construct_nets()
+
 
     def _construct_nets(self):
         tf.compat.v1.reset_default_graph()
@@ -286,9 +292,15 @@ class DDPGAgent:
     def _build_a(self, s, g, scope): # policy
         with tf.compat.v1.variable_scope(scope):
             net = tf.concat([s, g], 1)
-            net = tf.compat.v1.layers.dense(net, 64, tf.nn.relu)
-            net = tf.compat.v1.layers.dense(net, 64, tf.nn.relu)
-            net = tf.compat.v1.layers.dense(net, 64, tf.nn.relu)
+            net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            
+            if (self.nn_layers == 3):
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            if (self.nn_layers == 4):
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+                
             a = tf.compat.v1.layers.dense(net, self.action_size, tf.nn.tanh)
             result = a * (self.action_high-self.action_low)/2 + (self.action_high+self.action_low)/2
             return result
@@ -296,9 +308,15 @@ class DDPGAgent:
     def _build_c(self, s, a, g, scope): # Q value
         with tf.compat.v1.variable_scope(scope):
             net = tf.concat([s, a, g], 1)
-            net = tf.compat.v1.layers.dense(net, 64, tf.nn.relu)
-            net = tf.compat.v1.layers.dense(net, 64, tf.nn.relu)
-            net = tf.compat.v1.layers.dense(net, 64, tf.nn.relu)
+            net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            
+            if (self.nn_layers == 3):
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            if (self.nn_layers == 4):
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            
             return tf.compat.v1.layers.dense(net, 1)
 
     def choose_action(self, state, goal, variance): # normal distribution

@@ -29,12 +29,16 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         
         //добавить позицию сустава
         
+        // всегда 010 - возможно, передается только токальные значения
         sensor.AddObservation(jointPoint.position);
         
         // rotation of each robohand part
         foreach (var robotPart in roboParts)
             sensor.AddObservation(robotPart.Rotation);
     }
+    
+    //передавать в стейт только ненулевые углы
+    //убрать из стейта нулевое значение у позиции куба
     
     public override void OnActionReceived(float[] vectorAction)
     {
