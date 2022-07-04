@@ -1,5 +1,7 @@
-﻿using Unity.MLAgents.Sensors;
+﻿using System;
+using Unity.MLAgents.Sensors;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ThreeArmsAgent : TwoArmsRobotAgent
 {
@@ -9,37 +11,41 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
 
     private string anglesArray;
 
-    [SerializeField] private Transform jointPoint;
+    //[SerializeField] private Transform jointPoint;
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // state size = 3 (cubePosition) + 3 (cubePosition - endPosition) + 3 (endPosition) +
+        // old state size = 3 (cubePosition) + 3 (cubePosition - endPosition) + 3 (endPosition) +
         // 3 (jointPoint.position) + 3 * 3 (robotPart.Rotation for 3 joints) = 21
         
+        // updated state size = 2 (cubePosition) + 3 (cubePosition - endPosition) + 3 (endPosition) +
+        // 3 (robotPart.RotationFloat for 3 joints) = 11
+
         // The position of the cube and the upper arm (6 float numbers)
         cubePosition = cube.transform.position - robot.transform.position;
-        sensor.AddObservation(cubePosition);
-        
+        //sensor.AddObservation(cubePosition);
+        sensor.AddObservation(cubePosition.x);
+        sensor.AddObservation(cubePosition.z);
+
         endPosition = endEffector.transform.position - robot.transform.position;
 
         // The relative position between the hand and the cube (3 float numbers)
         sensor.AddObservation(cubePosition - endPosition);
 
         sensor.AddObservation(endPosition);
-        
+
         //добавить позицию сустава
-        
-        // всегда 010 - возможно, передается только токальные значения
-        sensor.AddObservation(jointPoint.position);
-        
+
+        // всегда 010 - возможно, передается только локальные значения
+        //sensor.AddObservation(jointPoint.position);
+
         // rotation of each robohand part
+        //foreach (var robotPart in roboParts)
+        //sensor.AddObservation(robotPart.Rotation);
         foreach (var robotPart in roboParts)
-            sensor.AddObservation(robotPart.Rotation);
+            sensor.AddObservation(robotPart.RotationFloat);
     }
-    
-    //передавать в стейт только ненулевые углы
-    //убрать из стейта нулевое значение у позиции куба
-    
+
     public override void OnActionReceived(float[] vectorAction)
     {
         //float[] testVector = {Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f)};
@@ -67,7 +73,7 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         _curReward = -1;
         UpdateInfo();
     }
-    
+
     protected virtual void UpdateInfo()
     {
         var angles1 = roboParts[0].transform.localRotation.eulerAngles;

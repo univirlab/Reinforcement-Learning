@@ -18,6 +18,20 @@ public class RobotPart : MonoBehaviour
         }
     }
     
+    public float RotationFloat
+    {
+        get
+        {
+            var q = rotationAxes[0] == Vector3.up
+                ? Normalization(transform.transform.localRotation.eulerAngles.y, 0, 360)
+                : Normalization(transform.transform.localRotation.eulerAngles.x, 0, 360);
+            return q;
+        }
+    }
+
+    private float Normalization(float value, float min, float max) => 
+        (value - min) / (max - min);
+
     private void Awake()
     {
         Angles = new float[rotationAxes.Length];
