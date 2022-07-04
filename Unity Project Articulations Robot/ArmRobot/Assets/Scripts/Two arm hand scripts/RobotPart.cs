@@ -75,6 +75,14 @@ public class RobotPart : MonoBehaviour
             : WrapAngle(transform.rotation.eulerAngles).x;
     }
     
+    public virtual void Rotate(float rotateValue)
+    {
+        var angle = (rotationAxes[0] == Vector3.up)
+            ? new Vector3(0f, rotateValue, 0f)
+            : new Vector3(rotateValue, 0f, 0f);
+        transform.Rotate(angle);
+    }
+    
     public void RotateSimple(float rotateValue)
     {
         if (rotationAxes[0] == Vector3.up)

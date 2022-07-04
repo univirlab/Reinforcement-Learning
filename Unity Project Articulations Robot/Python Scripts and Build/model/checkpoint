@@ -1,2 +1,2 @@
-model_checkpoint_path: "her_fixed2.ckpt"
-all_model_checkpoint_paths: "her_fixed2.ckpt"
+model_checkpoint_path: "without_her_rotate.ckpt"
+all_model_checkpoint_paths: "without_her_rotate.ckpt"

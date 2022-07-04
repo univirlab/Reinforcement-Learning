@@ -20,9 +20,9 @@ def sample_hyper_parameters(
 ) -> Dict:
 
 
-    nn_layers = trial.suggest_categorical("nn_layers", [2, 3, 4])
+    nn_layers = trial.suggest_categorical("nn_layers", [1, 2, 3])
     #actor_learning_rate = trial.suggest_loguniform("actor_learning_rate", 1e-5, 1e-2)
-    nn_hidden_layers = trial.suggest_categorical("nn_hidden_layers", [64, 256])
+    nn_hidden_layers = trial.suggest_categorical("nn_hidden_layers", [8, 32])
     #critic_learning_rate = trial.suggest_loguniform("critic_learning_rate", 1e-5, 1e-2)
     #tau = trial.suggest_loguniform("tau", 1e-3, 0.2)
     #variance = trial.suggest_categorical("variance", [3, 4, 5, 6])
@@ -193,7 +193,15 @@ def train(
         success_rate.append(successes/num_episodes)
         ep_mean_r.append(ep_total_r/num_episodes)
         print("\repoch", i+1, "success rate %.2f"%success_rate[-1], "ep_mean_r %.2f"%ep_mean_r[-1], 'exploration %.2f'%variance, end=' '*10)
-
+    
+    plt.plot(ep_mean_r, label="ddpg+her")
+    plt.legend()
+    plt.title("epoch mean reward (over 20 episodes)")
+    plt.show()
+    plt.plot(success_rate, label="ddpg+her")
+    plt.legend()
+    plt.title("epoch success rate (over 20 episodes)")
+    plt.show()
     return ep_mean_r
 
 def reward_func(state, goal):
@@ -222,6 +230,8 @@ class DDPGAgent:
         self.state_size = state_size
         self.action_size = action_size
         self.goal_size = goal_size
+        self.nn_layers = nn_layers
+        self.nn_hidden_layers = nn_hidden_layers
         self.action_low = action_low
         self.action_high = action_high
         self.gamma = gamma   # discount rate
@@ -233,8 +243,7 @@ class DDPGAgent:
         self.batch_size = 32
         self.gradient_norm_clip = None
         self._construct_nets()
-        self.nn_layers = nn_layers
-        self.nn_hidden_layers = nn_hidden_layers
+
 
     def _construct_nets(self):
         tf.compat.v1.reset_default_graph()
@@ -291,13 +300,14 @@ class DDPGAgent:
     def _build_a(self, s, g, scope): # policy
         with tf.compat.v1.variable_scope(scope):
             net = tf.concat([s, g], 1)
-            net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
+            
             net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
             
+            if (self.nn_layers == 2):
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
             if (self.nn_layers == 3):
                 net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
             if (self.nn_layers == 4):
-                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
                 net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
                 
             a = tf.compat.v1.layers.dense(net, self.action_size, tf.nn.tanh)
@@ -308,12 +318,12 @@ class DDPGAgent:
         with tf.compat.v1.variable_scope(scope):
             net = tf.concat([s, a, g], 1)
             net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
-            net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
             
+            if (self.nn_layers == 2):
+                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
             if (self.nn_layers == 3):
                 net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
             if (self.nn_layers == 4):
-                net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
                 net = tf.compat.v1.layers.dense(net, self.nn_hidden_layers, tf.nn.relu)
             
             return tf.compat.v1.layers.dense(net, 1)
