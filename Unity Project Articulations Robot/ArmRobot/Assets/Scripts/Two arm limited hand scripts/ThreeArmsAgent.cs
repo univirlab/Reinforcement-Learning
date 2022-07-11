@@ -1,6 +1,7 @@
 ﻿using Unity.MLAgents.Sensors;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static MathFunctions;
 
 public class ThreeArmsAgent : TwoArmsRobotAgent
 {
@@ -11,7 +12,8 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
     private string anglesArray;
 
     private float minMaxValue = 2;
-    //[SerializeField] private Transform jointPoint;
+    
+    [SerializeField] private Transform endposition;
 
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -46,8 +48,8 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        //float[] testVector = {Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
-        _actions = vectorAction;
+        float[] testVector = {Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
+        _actions = testVector;
 
         anglesOld1 = roboParts[0].transform.localRotation.eulerAngles;
         anglesOld2 = roboParts[1].transform.localRotation.eulerAngles;
@@ -78,6 +80,8 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         var angles1 = roboParts[0].transform.localRotation.eulerAngles;
         var angles2 = roboParts[1].transform.localRotation.eulerAngles;
         var angles3 = roboParts[2].transform.localRotation.eulerAngles;
+        
+        newPosition = GetPosition(RotateAxis.OX, angles1.x, RotateAxis.OY, angles2.y, RotateAxis.OY, 0.4048796f, endposition.position);
 
         cubePosition = cube.transform.position - robot.transform.position;
 
@@ -93,6 +97,16 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
             $"Cumulative reward: {GetCumulativeReward()} \nCurrent reward: {_curReward} \nState: {obs} \nAction: {act} " +
             anglesArray;
         text.text = str;
+    }
+    
+    public Vector3 newPosition;
+    
+    private void OnDrawGizmos()
+    {
+       // Gizmos.color = Color.green;
+       // Gizmos.DrawSphere(endposition.position, .02f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(newPosition, .02f);
     }
 
     private float Normalization(float value, float min, float max) =>
