@@ -13,20 +13,25 @@ public static class MathFunctions
     /// <param name="fullRealHandLength">длина реальной роборуки в вытянутом состоянии</param>
     /// <param name="fullUnityHandLength">длина роборуки из симуляции в Unity в вытянутом состоянии</param>
     public static Vector3 NormalizeCoordinates(float fullRealHandLength, float fullUnityHandLength, Vector3 oldCoord) =>
-        new Vector3((oldCoord.x * fullUnityHandLength) / fullRealHandLength,
-            (oldCoord.y * fullUnityHandLength) / fullRealHandLength,
-            (oldCoord.x * fullUnityHandLength) / fullRealHandLength);
+        new Vector3(oldCoord.x * fullUnityHandLength / fullRealHandLength,
+            oldCoord.y * fullUnityHandLength / fullRealHandLength,
+            oldCoord.z * fullUnityHandLength / fullRealHandLength);
     
-    public static Vector3 GetPosition(RotateAxis rotateAxis1, float rotateAngle1, RotateAxis rotateAxis2, float rotateAngle2,
+    public static Vector3 GetPosition(RotateAxis rotateAxis0, float rotateAngle0, RotateAxis rotateAxis1, float rotateAngle1, RotateAxis rotateAxis2, float rotateAngle2,
         RotateAxis offsetAxis, float offsetDist, Vector3 endposition)
     {
+        var newPosition = endposition;
+        
         var radians = rotateAngle1 * Mathf.PI / 180;
         
         radians = rotateAngle2 * Mathf.PI / 180;
-        var newPosition = RotateAndOffset(offsetAxis, offsetDist, rotateAxis2, radians, endposition);
+        newPosition = RotateAndOffset(offsetAxis, offsetDist, rotateAxis2, radians, endposition);
         
         radians = rotateAngle1 * Mathf.PI / 180;
         newPosition = RotateAroundAxis(newPosition, rotateAxis1, radians);
+        
+        radians = rotateAngle0 * Mathf.PI / 180;
+        newPosition = RotateAroundAxis(newPosition, rotateAxis0, radians);
 
         return newPosition;
     }

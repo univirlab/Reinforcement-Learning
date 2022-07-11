@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using static MathFunctions;
 
 public class MathTesting : MonoBehaviour
 {
     [SerializeField] private Transform endposition;
+    [SerializeField] private Transform Hand2;
     public RotateAxis rotateAxis1;
     public RotateAxis rotateAxis2;
     public float rotateAngle1;
@@ -33,5 +35,13 @@ public class MathTesting : MonoBehaviour
         
         radians = rotateAngle1 * Mathf.PI / 180;
         newPosition = RotateAroundAxis(newPosition, rotateAxis1, radians);
+    }
+
+    private void Update()
+    {
+        var angle = Hand2.transform.localRotation.eulerAngles;
+        if (angle.y != 0)
+            angle.x = 180 - angle.x;
+        print(angle);
     }
 }

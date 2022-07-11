@@ -255,7 +255,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925567633}
-  m_LocalRotation: {x: 0, y: 0, z: 0.46174863, w: 0.8870109}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.40487957, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -263,7 +263,7 @@ Transform:
   - {fileID: 35754728}
   m_Father: {fileID: 955107279}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 55}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &955107278
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,7 +287,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955107278}
-  m_LocalRotation: {x: -0.46174863, y: 0, z: 0, w: 0.8870109}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -295,7 +295,7 @@ Transform:
   - {fileID: 925567634}
   m_Father: {fileID: 1607936641}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -55, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &961293634
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +405,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1336374207
 GameObject:
@@ -499,64 +499,13 @@ RectTransform:
   m_Children:
   - {fileID: 627399100}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1401646245
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1401646247}
-  - component: {fileID: 1401646246}
-  m_Layer: 0
-  m_Name: Script
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1401646246
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401646245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c8db886ffac473478c9ac0e0b854f00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  endposition: {fileID: 1033470766}
-  rotateAxis1: 0
-  rotateAxis2: 0
-  rotateAngle1: 0
-  rotateAngle2: 0
-  newPosition: {x: -0.33165795, y: 0.36543068, z: -0.52188915}
-  offsetAxis: 0
-  offsetDist: 0
---- !u!4 &1401646247
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1401646245}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9288372, y: 0.2027661, z: 0.17232586}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1539391165
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,8 +607,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1607936641}
+  - component: {fileID: 1607936642}
   m_Layer: 0
-  m_Name: RoboHand
+  m_Name: RoboHand Math Testing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -678,8 +628,29 @@ Transform:
   m_Children:
   - {fileID: 955107279}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1607936642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1607936640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c8db886ffac473478c9ac0e0b854f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  endposition: {fileID: 1033470766}
+  Hand2: {fileID: 925567634}
+  rotateAxis1: 1
+  rotateAxis2: 0
+  rotateAngle1: 150
+  rotateAngle2: 150
+  newPosition: {x: 0.10823014, y: 0.02995953, z: -0.18746006}
+  offsetAxis: 1
+  offsetDist: 0.4048796
 --- !u!1 &1755704256
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,10 +827,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Train Model 3-Arm
       objectReference: {fileID: 0}
+    - target: {fileID: 3616192372070525747, guid: 35706149ffe303e459872e20f87a60ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3616192372070525748, guid: 35706149ffe303e459872e20f87a60ca,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3616192372070525748, guid: 35706149ffe303e459872e20f87a60ca,
         type: 3}

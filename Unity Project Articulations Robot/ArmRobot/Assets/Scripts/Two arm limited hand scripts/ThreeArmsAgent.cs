@@ -12,8 +12,9 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
     private string anglesArray;
 
     private float minMaxValue = 2;
-    
-    [SerializeField] private Transform endposition;
+
+    [Header("Testing")] [SerializeField] private Transform endposition;
+    public Vector3 newPosition;
 
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -28,9 +29,9 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         // var cubePosNorm = new Vector3(Normalization(cubePosition.x, -minMaxValue, minMaxValue),
         //     Normalization(cubePosition.y, -minMaxValue, minMaxValue),
         //     Normalization(cubePosition.z, -minMaxValue, minMaxValue));
-        
+
         sensor.AddObservation(cubePosition);
-        
+
         endPosition = endEffector.transform.position - robot.transform.position;
 
         // The relative position between the hand and the cube (3 float numbers)
@@ -48,7 +49,7 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        float[] testVector = {Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)};
+        float[] testVector = {Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f)};
         _actions = testVector;
 
         anglesOld1 = roboParts[0].transform.localRotation.eulerAngles;
@@ -80,13 +81,27 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         var angles1 = roboParts[0].transform.localRotation.eulerAngles;
         var angles2 = roboParts[1].transform.localRotation.eulerAngles;
         var angles3 = roboParts[2].transform.localRotation.eulerAngles;
+
+        var angle1 = angles1.y;
+        var angle2 = angles2.x;
+        var angle3 = angles3.x;
         
-        newPosition = GetPosition(RotateAxis.OX, angles1.x, RotateAxis.OY, angles2.y, RotateAxis.OY, 0.4048796f, endposition.position);
+        if (angles1.x != 0)
+            angle1 = 180 - angle1;
+        if (angles2.y != 0)
+            angle2 = 180 - angle2;
+        if (angles3.y != 0)
+            angle3 = 180 - angle3;
+        
+        print(angle1 + " " + angle2 + " " + angle3);
+        newPosition = GetPosition(RotateAxis.OY, angle1, 
+                                    RotateAxis.OX, angle2, 
+                                    RotateAxis.OX, angle3,
+                                    RotateAxis.OY, 0.4048796f, endposition.position);
 
         cubePosition = cube.transform.position - robot.transform.position;
 
         anglesArray =
-            //$"\nAngles old: {anglesOld1.y} {anglesOld2.x} {anglesOld3.x}  Angles new: {angles1.y} {angles2.x} {angles3.x}";
             $"\nAngles old {roboParts[0].gameObject.name}: {anglesOld1}\nAngles old {roboParts[1].gameObject.name}: {anglesOld2}\nAngles old {roboParts[2].gameObject.name}: {anglesOld3}" +
             $"\nAngles after action {roboParts[0].gameObject.name}: {angles1}\nAngles after action {roboParts[1].gameObject.name}: {angles2}\nAngles after action {roboParts[2].gameObject.name}: {angles3}" +
             $"\nCube position: {cubePosition}";
@@ -98,13 +113,11 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
             anglesArray;
         text.text = str;
     }
-    
-    public Vector3 newPosition;
-    
+
     private void OnDrawGizmos()
     {
-       // Gizmos.color = Color.green;
-       // Gizmos.DrawSphere(endposition.position, .02f);
+        //Gizmos.color = Color.green;
+        //Gizmos.DrawSphere(endposition.position, .02f);
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(newPosition, .02f);
     }
