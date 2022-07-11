@@ -1,6 +1,5 @@
 from enum import Enum
 import math
-from  numpy import array
 
 
 def test_func():
@@ -105,7 +104,7 @@ def get_rotate_matrix(rotate_axis: RotateAxis, alpha: float, count_of_elements=3
             rotate_matrix = [
                 [1, 0, 0, 0],
                 [0, math.cos(alpha), -math.sin(alpha), 0],
-                [0, math.sin(alpha), math.cos(alpha)],
+                [0, math.sin(alpha), math.cos(alpha), 0],
                 [0, 0, 0, 1]]
 
     if rotate_axis == RotateAxis.OY:
@@ -144,7 +143,7 @@ def matrix_multiplication(a: list, b: list, m: int, n: int, p: int, q: int) -> l
         c.append([])
         for j in range(q):
             c[i].append(0)
-
+    
     if n != p:
         return c
     for i in range(m):

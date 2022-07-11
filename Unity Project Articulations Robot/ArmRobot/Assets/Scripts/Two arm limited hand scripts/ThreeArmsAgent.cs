@@ -21,8 +21,8 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         // old state size = 3 (cubePosition) + 3 (cubePosition - endPosition) + 3 (endPosition) +
         // 3 (jointPoint.position) + 3 * 3 (robotPart.Rotation for 3 joints) = 21
 
-        // updated state size = 2 (cubePosition) + 3 (cubePosition - endPosition) + 3 (endPosition) +
-        // 3 (robotPart.RotationFloat for 3 joints) = 11
+        // updated state size = 3 (cubePosition) + 3 (cubePosition - endPosition) + 3 (endPosition) +
+        // 3 (robotPart.RotationFloat for 3 joints) = 12
 
         // The position of the cube and the upper arm (6 float numbers)
         cubePosition = cube.transform.position - robot.transform.position;
