@@ -93,12 +93,11 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         if (angles3.y != 0)
             angle3 = 180 - angle3;
         
-        print(angle1 + " " + angle2 + " " + angle3);
         newPosition = GetPosition(RotateAxis.OY, angle1, 
                                     RotateAxis.OX, angle2, 
                                     RotateAxis.OX, angle3,
                                     RotateAxis.OY, 0.4048796f, endposition.position);
-
+        
         cubePosition = cube.transform.position - robot.transform.position;
 
         anglesArray =

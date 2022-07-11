@@ -22,9 +22,7 @@ public static class MathFunctions
     {
         var newPosition = endposition;
         
-        var radians = rotateAngle1 * Mathf.PI / 180;
-        
-        radians = rotateAngle2 * Mathf.PI / 180;
+        var radians = rotateAngle2 * Mathf.PI / 180;
         newPosition = RotateAndOffset(offsetAxis, offsetDist, rotateAxis2, radians, endposition);
         
         radians = rotateAngle1 * Mathf.PI / 180;

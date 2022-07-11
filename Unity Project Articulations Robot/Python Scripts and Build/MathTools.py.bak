@@ -1,0 +1,15 @@
+from enum import Enum
+
+class RotateAxis(Enum):
+    OX = 1
+    OY = 2
+    OZ = 3
+
+#oldCoord - list [x, y, z]
+def normalizeCoordinates(fullRealHandLength, fullUnityHandLength, oldCoord):
+    newX = oldCoord[0] * fullUnityHandLength / fullRealHandLength
+    newY = oldCoord[1] * fullUnityHandLength / fullRealHandLength
+    newZ = oldCoord[2] * fullUnityHandLength / fullRealHandLength
+    return [newX, newY, newZ]
+    
+def getRotateOffsetPosition()
