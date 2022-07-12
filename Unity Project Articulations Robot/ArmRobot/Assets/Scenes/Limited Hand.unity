@@ -967,6 +967,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Train Model 3-Arm
       objectReference: {fileID: 0}
+    - target: {fileID: 3616192372070525747, guid: 35706149ffe303e459872e20f87a60ca,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3616192372070525748, guid: 35706149ffe303e459872e20f87a60ca,
         type: 3}
       propertyPath: m_RootOrder
@@ -1184,7 +1189,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &5212663969150686250
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1550,6 +1555,8 @@ MonoBehaviour:
   tablePositionRandomizer: {fileID: 5212663970211375405}
   cubePosition: {x: 0, y: 0, z: 0}
   endPosition: {x: 0, y: 0, z: 0}
+  endposition: {fileID: 0}
+  newPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &5212663970204145010
 MonoBehaviour:
   m_ObjectHideFlags: 0
