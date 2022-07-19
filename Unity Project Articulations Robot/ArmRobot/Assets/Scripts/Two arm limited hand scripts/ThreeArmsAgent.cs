@@ -49,8 +49,8 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        float[] testVector = {Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f)};
-        _actions = testVector;
+        //float[] testVector = {Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f)};
+        _actions = vectorAction;
 
         anglesOld1 = roboParts[0].transform.localRotation.eulerAngles;
         anglesOld2 = roboParts[1].transform.localRotation.eulerAngles;
