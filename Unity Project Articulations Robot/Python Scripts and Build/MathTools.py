@@ -43,27 +43,24 @@ def angle_to_radians(angle: float) -> float:
     return angle * math.pi / 180
 
 
-def rotate_and_offset(offset_axis1: RotateAxis, offset1: float, rotate_axis: RotateAxis, alpha: float,
-                      old_coord: list) -> list:
-    # n, p - vertical, m, q - horizontal
-    # n, m - first matrix, p, q - second
-    n = 4
-    m = 4
-    p = 4
-    q = 4
-    offset_matrix = get_offset_matrix(offset_axis1, -offset1)
+def rotate_and_offset(offset_axis: RotateAxis, offset: float, rotate_axis: RotateAxis, alpha: float,
+                      old_coord: list) -> list:    
+    # get matrices depending on displacement/rotation axis
+    offset_matrix = get_offset_matrix(offset_axis, -offset)
     rotate_matrix = get_rotate_matrix(rotate_axis, alpha, 4)
+    
+    # matrix of coordinates of the point of the end of the hand in the starting state
     old_coordinates = [[old_coord[0]], [old_coord[1]], [old_coord[2]], [1]]
 
-    # offset to(0, 0, 0) coordinates system
-    new_coords = matrix_multiplication(offset_matrix, old_coordinates, m, n, p, 1)
+    # offset to (0, offset, 0) coordinates system
+    new_coords = matrix_multiplication(offset_matrix, old_coordinates, 4, 4, 4, 1)
 
     # rotate
-    result = matrix_multiplication(rotate_matrix, new_coords, m, n, p, 1)
+    result = matrix_multiplication(rotate_matrix, new_coords, 4, 4, 4, 1)
 
     # offset back
-    offset_matrix = get_offset_matrix(offset_axis1, offset1)
-    result = matrix_multiplication(offset_matrix, result, m, n, p, 1)
+    offset_matrix = get_offset_matrix(offset_axis, offset)
+    result = matrix_multiplication(offset_matrix, result, 4, 4, 4, 1)
 
     res_vector = [result[0][0], result[1][0], result[2][0]]
     return res_vector
@@ -139,6 +136,7 @@ def get_rotate_matrix(rotate_axis: RotateAxis, alpha: float, count_of_elements=3
 def matrix_multiplication(a: list, b: list, m: int, n: int, p: int, q: int) -> list:
     c = []
 
+    #creating a matrix of a given size filled with zeros
     for i in range(m):
         c.append([])
         for j in range(q):
@@ -154,12 +152,8 @@ def matrix_multiplication(a: list, b: list, m: int, n: int, p: int, q: int) -> l
 
 
 def rotate_around_axis(old_coords: list, axis: RotateAxis, alpha: float) -> list:
-    n = 3
-    m = 3
-    p = 3
-    q = 1
     rotate_matrix = get_rotate_matrix(axis, alpha)
     old_coordinates = [[old_coords[0]], [old_coords[1]], [old_coords[2]]]
-    result = matrix_multiplication(rotate_matrix, old_coordinates, m, n, p, q)
+    result = matrix_multiplication(rotate_matrix, old_coordinates, 3, 3, 3, 1)
     res_vector = [result[0][0], result[1][0], result[2][0]]
     return res_vector
