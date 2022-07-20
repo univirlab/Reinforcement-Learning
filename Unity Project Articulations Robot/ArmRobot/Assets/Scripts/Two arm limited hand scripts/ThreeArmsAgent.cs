@@ -16,6 +16,9 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
     [Header("Testing")] [SerializeField] private Transform endposition;
     public Vector3 newPosition;
 
+    [Header("Table detection for reward correction")]
+    public TableDetection[] TableDetectionParts;
+    
     public override void CollectObservations(VectorSensor sensor)
     {
         // old state size = 3 (cubePosition) + 3 (cubePosition - endPosition) + 3 (endPosition) +
@@ -73,6 +76,18 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
 
         SetReward(-1);
         _curReward = -1;
+
+        var tableRewardCorrection = -5;
+
+        foreach (var tableDetection in TableDetectionParts)
+        {
+            if (tableDetection.hasTouchedTable)
+            {
+                AddReward(tableRewardCorrection);
+                _curReward += tableRewardCorrection;
+            }
+        }
+        
         UpdateInfo();
     }
 
@@ -93,10 +108,10 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         if (angles3.y != 0)
             angle3 = 180 - angle3;
         
-        newPosition = GetPosition(RotateAxis.OY, angle1, 
-                                    RotateAxis.OX, angle2, 
-                                    RotateAxis.OX, angle3,
-                                    RotateAxis.OY, 0.4048796f, endposition.position);
+        // newPosition = GetPosition(RotateAxis.OY, angle1, 
+        //                             RotateAxis.OX, angle2, 
+        //                             RotateAxis.OX, angle3,
+        //                             RotateAxis.OY, 0.4048796f, endposition.position);
         
         cubePosition = cube.transform.position - robot.transform.position;
 
@@ -105,21 +120,22 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
             $"\nAngles after action {roboParts[0].gameObject.name}: {angles1}\nAngles after action {roboParts[1].gameObject.name}: {angles2}\nAngles after action {roboParts[2].gameObject.name}: {angles3}" +
             $"\nCube position: {cubePosition}";
 
+        var targetDist = Vector3.Distance(endposition.position, cube.transform.position);
+        
         var obs = string.Join("  ", GetObservations());
         var act = string.Join("  ", _actions);
         var str =
-            $"Cumulative reward: {GetCumulativeReward()} \nCurrent reward: {_curReward} \nState: {obs} \nAction: {act} " +
-            anglesArray;
+            $"Cumulative reward: {GetCumulativeReward()} \nCurrent reward: {_curReward} \nState: {obs} \nAction: {act} {anglesArray} \nDistance to target: {targetDist}";
         text.text = str;
     }
 
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.green;
-        //Gizmos.DrawSphere(endposition.position, .02f);
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(newPosition, .02f);
-    }
+    // private void OnDrawGizmos()
+    // {
+    //     //Gizmos.color = Color.green;
+    //     //Gizmos.DrawSphere(endposition.position, .02f);
+    //     Gizmos.color = Color.red;
+    //     Gizmos.DrawSphere(newPosition, .02f);
+    // }
 
     private float Normalization(float value, float min, float max) =>
         (value - min) / (max - min);
