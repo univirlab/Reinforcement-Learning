@@ -8,6 +8,7 @@ public class TablePositionRandomizer : MonoBehaviour
     public GameObject table;
     public float robotMinReach = 0.2f;
     public float robotMaxReach = 0.5f;
+    public float maxReachY = 0.5f;
 
     protected Bounds tableBounds;
     protected float targetY;
@@ -27,6 +28,9 @@ public class TablePositionRandomizer : MonoBehaviour
         Vector3 tableCenter = tableBounds.center;
         float x = tableCenter.x + tableTopPoint.x;
         float z = tableCenter.z + tableTopPoint.y;
+
+        targetY = Random.Range(0, maxReachY);
+        
         transform.position = new Vector3(x, targetY, z);
 
         // random rotation

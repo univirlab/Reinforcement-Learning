@@ -1,2 +1,2 @@
-model_checkpoint_path: "without_her_rigid_table.ckpt"
-all_model_checkpoint_paths: "without_her_rigid_table.ckpt"
+model_checkpoint_path: "without_her_rigidtable_scaled_more_y.ckpt"
+all_model_checkpoint_paths: "without_her_rigidtable_scaled_more_y.ckpt"

@@ -18,6 +18,8 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
 
     [Header("Table detection for reward correction")]
     public TableDetection[] TableDetectionParts;
+
+    private float _allHandHeight = 13f;
     
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -28,14 +30,14 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         // 3 (robotPart.RotationFloat for 3 joints) = 12
 
         // The position of the cube and the upper arm (6 float numbers)
-        cubePosition = cube.transform.position - robot.transform.position;
+        cubePosition = cube.transform.position;// - robot.transform.position;
         // var cubePosNorm = new Vector3(Normalization(cubePosition.x, -minMaxValue, minMaxValue),
         //     Normalization(cubePosition.y, -minMaxValue, minMaxValue),
         //     Normalization(cubePosition.z, -minMaxValue, minMaxValue));
 
         sensor.AddObservation(cubePosition);
 
-        endPosition = endEffector.transform.position - robot.transform.position;
+        endPosition = endEffector.transform.position;// - robot.transform.position;
 
         // The relative position between the hand and the cube (3 float numbers)
         sensor.AddObservation(cubePosition - endPosition);
@@ -49,7 +51,24 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         foreach (var robotPart in roboParts)
             sensor.AddObservation(robotPart.RotationFloat);
     }
-
+    
+    // normalization
+    /*public override void CollectObservations(VectorSensor sensor)
+    {
+        cubePosition = cube.transform.position;
+        var normalizedCubePos = new Vector3(cubePosition.x / _allHandHeight, cubePosition.y / _allHandHeight,
+            cubePosition.z / _allHandHeight);
+        sensor.AddObservation(normalizedCubePos);
+        
+        endPosition = endEffector.transform.position;
+        var normalizedEndPos = new Vector3(endPosition.x / _allHandHeight, endPosition.y / _allHandHeight,
+            endPosition.z / _allHandHeight);
+        sensor.AddObservation(normalizedCubePos - normalizedEndPos);
+        sensor.AddObservation(normalizedEndPos);
+        foreach (var robotPart in roboParts)
+            sensor.AddObservation(robotPart.RotationFloat);
+    }*/
+    
     public override void OnActionReceived(float[] vectorAction)
     {
         //float[] testVector = {Random.Range(-10f, 10f), Random.Range(-10f, 10f), Random.Range(-10f, 10f)};
@@ -78,7 +97,7 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         _curReward = -1;
 
         var tableRewardCorrection = -5;
-
+        
         foreach (var tableDetection in TableDetectionParts)
         {
             if (tableDetection.hasTouchedTable)
@@ -112,8 +131,8 @@ public class ThreeArmsAgent : TwoArmsRobotAgent
         //                             RotateAxis.OX, angle2, 
         //                             RotateAxis.OX, angle3,
         //                             RotateAxis.OY, 0.4048796f, endposition.position);
-        
-        cubePosition = cube.transform.position - robot.transform.position;
+
+        cubePosition = cube.transform.position;// - robot.transform.position;
 
         anglesArray =
             $"\nAngles old {roboParts[0].gameObject.name}: {anglesOld1}\nAngles old {roboParts[1].gameObject.name}: {anglesOld2}\nAngles old {roboParts[2].gameObject.name}: {anglesOld3}" +
